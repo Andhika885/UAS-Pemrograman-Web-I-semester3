@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Daftar Member — KlikinAja</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand"><a href="index.html"><h1 class="brand"><img alt="logo KlikinAja" src="img/logo.jpg" width="100px" height="50"></h1></a></h1>
+      <nav>
+        <a href="index.html">Beranda</a>
+        <a href="products.html">Produk</a>
+        <a href="register.html">Daftar</a>
+        <a href="contact.html">Buku Tamu</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Form Registrasi Member</h2>
+    <form id="registerForm" class="form-card" novalidate>
+      <label>Nama Lengkap
+        <input name="fullname" type="text" required minlength="3">
+      </label>
+
+      <label>Email
+        <input name="email" type="email" required>
+      </label>
+
+      <label>Password
+        <input name="password" type="password" required minlength="6">
+      </label>
+
+      <label>Alamat
+        <textarea name="address" rows="3" required></textarea>
+      </label>
+
+      <button class="btn" type="submit">Daftar</button>
+      <p id="regMsg" class="muted"></p>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year4"></span> KlikinAja.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const f = new FormData(this);
+      // demo: simpan ke localStorage 
+      const member = {
+        fullname: f.get('fullname'),
+        email: f.get('email'),
+        address: f.get('address'),
+        registeredAt: new Date().toISOString()
+      };
+
+      const list = JSON.parse(localStorage.getItem('members') || '[]');
+      list.push(member);
+      localStorage.setItem('members', JSON.stringify(list));
+
+      document.getElementById('regMsg').textContent = 'Pendaftaran sukses! Terima kasih, ' + member.fullname;
+      this.reset();
+    });
+
+    document.getElementById('year4').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

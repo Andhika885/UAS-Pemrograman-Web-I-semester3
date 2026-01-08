@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Produk — KlikinAja</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand"><a href="index.html"><h1 class="brand"><img alt="logo KlikinAja" src="img/logo.jpg" width="100px" height="50"></h1></a></h1>
+      <nav>
+        <a href="index.html">Beranda</a>
+        <a href="products.html">Produk</a>
+        <a href="register.html">Daftar</a>
+        <a href="contact.html">Buku Tamu</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Produk Kami</h2><br>
+        <div class="dropup-center dropup">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Centered dropup
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="products_p.html">fasion Pria</a></li>
+          <li><a class="dropdown-item" href="products_w.html">Fasion Wanita</a></li>
+      </ul>
+    </div>
+    <div id="product-list" class="product-grid"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year2"></span> KlikinAja.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Data produk sederhana 
+    const products = [
+      {
+        id: 5,
+        name: "Dress",
+        price: 22000,
+        img: "img/w0.jpg",
+        short: "Bahan Bagus lembut."
+      },
+      {
+        id: 6,
+        name: "Blazer tanpa lengan",
+        price: 28000,
+        img: "img/w1.jpg",
+        short: "Bahan tebal bagus."
+      },
+      {
+        id: 7,
+        name: "Pre-Owned Monogram",
+        price: 35000,
+        img: "img/w2.jpg",
+        short: "Cocok untuk Nongkrong."
+      },
+      {
+        id: 8,
+        name: "Kemeja Denim Jeans",
+        price: 35000,
+        img: "img/w3.jpg",
+        short: "Cocok untuk Nongkrong."
+      }
+    ];
+
+    function currency(id) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(id);
+    }
+
+    const list = document.getElementById('product-list');
+    products.forEach(p => {
+      const card = document.createElement('article');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img alt="${p.name}" src="${p.img}">
+        <h4>${p.name}</h4>
+        <p class="price">${currency(p.price)}</p>
+        <p>${p.short}</p>
+        <p><a class="btn" href="product-detail.html?id=${p.id}">Detail</a></p>
+      `;
+      list.appendChild(card);
+    });
+
+    document.getElementById('year2').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

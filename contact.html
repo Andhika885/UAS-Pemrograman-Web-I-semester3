@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Buku Tamu — KlikinAja</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand"><a href="index.html"><h1 class="brand"><img alt="logo KlikinAja" src="img/logo.jpg" width="100px" height="50"></h1></a></h1>
+      <nav>
+        <a href="index.html">Beranda</a>
+        <a href="products.html">Produk</a>
+        <a href="register.html">Daftar</a>
+        <a href="contact.html">Buku Tamu</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Buku Tamu</h2>
+
+    <form id="guestForm" class="form-card">
+      <label>Nama
+        <input name="name" required>
+      </label>
+
+      <label>Pesan
+        <textarea name="message" rows="4" required></textarea>
+      </label>
+
+      <button class="btn" type="submit">Kirim</button>
+    </form>
+
+    <section>
+      <h3>Pesan Pengunjung</h3>
+      <div id="guestList"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year5"></span> KlikinAja.</p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('guestForm');
+    const listEl = document.getElementById('guestList');
+
+    function renderGuests() {
+      const g = JSON.parse(localStorage.getItem('guests') || '[]').reverse();
+      listEl.innerHTML = g.map(item => `
+        <div class="guest">
+          <strong>${escapeHtml(item.name)}</strong>
+          <p>${escapeHtml(item.message)}</p>
+          <small class="muted">${new Date(item.at).toLocaleString()}</small>
+        </div>
+      `).join('') || '<p class="muted">Belum ada pesan.</p>';
+    }
+
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      const data = new FormData(form);
+      const guest = { name: data.get('name'), message: data.get('message'), at: new Date().toISOString() };
+      const arr = JSON.parse(localStorage.getItem('guests') || '[]');
+      arr.push(guest);
+      localStorage.setItem('guests', JSON.stringify(arr));
+      form.reset();
+      renderGuests();
+    });
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[s]));
+    }
+
+    document.getElementById('year5').textContent = new Date().getFullYear();
+    renderGuests();
+  </script>
+</body>
+</html>

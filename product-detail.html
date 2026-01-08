@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Detail Produk — KlikinAja</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand"><a href="index.html"><h1 class="brand"><img alt="logo KlikinAja" src="img/logo.jpg" width="100px" height="50"></h1></a></h1>
+      <nav>
+        <a href="index.html">Beranda</a>
+        <a href="products.html">Produk</a>
+        <a href="register.html">Daftar</a>
+        <a href="contact.html">Buku Tamu</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="detail"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year3"></span> KlikinAja.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Sama seperti data di products.html
+    const products = [
+      { id: 1, name: "Kacamata dheatles empire", price: 22000, img: "img/p0.jpg", desc: "Kacamata kece." },
+      { id: 2, name: "Kaos Polos hitam", price: 28000, img: "img/p1.jpg", desc: "bahan tebal bagus." },
+      { id: 3, name: "Sepatu hitam Docmart", price: 35000, img: "img/p2.jpg", desc: "Sepatu hitam keren." },
+      { id: 4, name: "Sepatu hitam Docmart", price: 35000, img: "img/p3.jpg", desc: "Sepatu hitam keren." },
+      { id: 5, name: "Dress", price: 22000, img: "img/w0.jpg", desc: "Dress." },
+      { id: 6, name: "Kaos Polos hitam", price: 28000, img: "img/w1.jpg", desc: "bahan tebal bagus." },
+      { id: 7, name: "Sepatu hitam Docmart", price: 35000, img: "img/w2.jpg", desc: "Sepatu hitam keren." },
+      { id: 8, name: "Sepatu hitam Docmart", price: 35000, img: "img/w3.jpg", desc: "Sepatu hitam keren." }
+    ];
+
+    function currency(id) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(id);
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const id = Number(params.get('id')) || 1;
+    const p = products.find(x => x.id === id) || products[0];
+
+    const detail = document.getElementById('detail');
+    detail.innerHTML = `
+      <div class="product-detail">
+        <img alt="${p.name}" src="${p.img}">
+        <div>
+          <h2>${p.name}</h2>
+          <p class="price">${currency(p.price)}</p>
+          <p>${p.desc}</p>
+          <form id="buyForm">
+            <label>Jumlah:
+              <input type="number" name="qty" min="1" value="1" required>
+            </label>
+            <button class="btn" type="submit">Beli Sekarang</button>
+          </form>
+          <p id="message"></p>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('buyForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const qty = Number(this.qty.value);
+      document.getElementById('message').textContent = `Terima kasih! Anda memilih ${qty} item. (Demo — belum ada sistem pembayaran)`;
+    });
+
+    document.getElementById('year3').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
